@@ -476,6 +476,8 @@ export interface PluginUsersPermissionsUser
     bio: Schema.Attribute.Text;
     expertise: Schema.Attribute.String;
     location: Schema.Attribute.String;
+    videos: Schema.Attribute.Relation<'oneToMany', 'api::video.video'>;
+    audioos: Schema.Attribute.Relation<'oneToMany', 'api::audioo.audioo'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -531,6 +533,42 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAudiooAudioo extends Struct.CollectionTypeSchema {
+  collectionName: 'audioos';
+  info: {
+    singularName: 'audioo';
+    pluralName: 'audioos';
+    displayName: 'audioo';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    audioMedia: Schema.Attribute.Media<'audios'>;
+    content: Schema.Attribute.Text;
+    comments: Schema.Attribute.Relation<'oneToMany', 'api::comment.comment'>;
+    reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    categoryaudio: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::categoryaudio.categoryaudio'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::audioo.audioo'>;
+  };
+}
+
 export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   collectionName: 'categories';
   info: {
@@ -563,6 +601,64 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCategoryaudioCategoryaudio
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'categoryaudios';
+  info: {
+    singularName: 'categoryaudio';
+    pluralName: 'categoryaudios';
+    displayName: 'categoryaudio';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String;
+    audioos: Schema.Attribute.Relation<'oneToMany', 'api::audioo.audioo'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::categoryaudio.categoryaudio'
+    >;
+  };
+}
+
+export interface ApiCategoryvideoCategoryvideo
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'categoryvideos';
+  info: {
+    singularName: 'categoryvideo';
+    pluralName: 'categoryvideos';
+    displayName: 'categoryvideo';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String;
+    videos: Schema.Attribute.Relation<'oneToMany', 'api::video.video'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::categoryvideo.categoryvideo'
+    >;
+  };
+}
+
 export interface ApiCommentComment extends Struct.CollectionTypeSchema {
   collectionName: 'comments';
   info: {
@@ -584,6 +680,8 @@ export interface ApiCommentComment extends Struct.CollectionTypeSchema {
     commented: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    video: Schema.Attribute.Relation<'manyToOne', 'api::video.video'>;
+    audioo: Schema.Attribute.Relation<'manyToOne', 'api::audioo.audioo'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -621,6 +719,8 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
     reviewed: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    video: Schema.Attribute.Relation<'manyToOne', 'api::video.video'>;
+    audioo: Schema.Attribute.Relation<'manyToOne', 'api::audioo.audioo'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -639,13 +739,26 @@ export interface ApiVideoVideo extends Struct.CollectionTypeSchema {
     singularName: 'video';
     pluralName: 'videos';
     displayName: 'video';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     title: Schema.Attribute.String & Schema.Attribute.Required;
-    video: Schema.Attribute.Media<'videos', true> & Schema.Attribute.Required;
+    video: Schema.Attribute.Media<'videos'> & Schema.Attribute.Required;
+    reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
+    comments: Schema.Attribute.Relation<'oneToMany', 'api::comment.comment'>;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    content: Schema.Attribute.Text;
+    categoryvideo: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::categoryvideo.categoryvideo'
+    >;
+    poster: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -1034,7 +1147,10 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::article.article': ApiArticleArticle;
+      'api::audioo.audioo': ApiAudiooAudioo;
       'api::category.category': ApiCategoryCategory;
+      'api::categoryaudio.categoryaudio': ApiCategoryaudioCategoryaudio;
+      'api::categoryvideo.categoryvideo': ApiCategoryvideoCategoryvideo;
       'api::comment.comment': ApiCommentComment;
       'api::review.review': ApiReviewReview;
       'api::video.video': ApiVideoVideo;

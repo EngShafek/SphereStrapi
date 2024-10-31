@@ -32,6 +32,18 @@
       "type": "string",
       "required": true,
       "unique": true
+    },
+    "video": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::video.video",
+      "inversedBy": "comments"
+    },
+    "audioo": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::audioo.audioo",
+      "inversedBy": "comments"
     }
   }
 }

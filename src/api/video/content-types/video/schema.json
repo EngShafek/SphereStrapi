@@ -4,7 +4,8 @@
   "info": {
     "singularName": "video",
     "pluralName": "videos",
-    "displayName": "video"
+    "displayName": "video",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -16,12 +17,49 @@
       "required": true
     },
     "video": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
       "allowedTypes": [
         "videos"
+      ]
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "video"
+    },
+    "comments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comment.comment",
+      "mappedBy": "video"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "videos"
+    },
+    "content": {
+      "type": "text"
+    },
+    "categoryvideo": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::categoryvideo.categoryvideo",
+      "inversedBy": "videos"
+    },
+    "poster": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
       ],
       "type": "media",
-      "multiple": true,
-      "required": true
+      "multiple": false
     }
   }
 }

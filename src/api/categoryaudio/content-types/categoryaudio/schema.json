@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "categoryaudios",
+  "info": {
+    "singularName": "categoryaudio",
+    "pluralName": "categoryaudios",
+    "displayName": "categoryaudio"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "audioos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::audioo.audioo",
+      "mappedBy": "categoryaudio"
+    }
+  }
+}

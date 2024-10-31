@@ -99,6 +99,18 @@
     },
     "location": {
       "type": "string"
+    },
+    "videos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::video.video",
+      "mappedBy": "user"
+    },
+    "audioos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::audioo.audioo",
+      "mappedBy": "user"
     }
   }
 }

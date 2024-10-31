@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "audioos",
+  "info": {
+    "singularName": "audioo",
+    "pluralName": "audioos",
+    "displayName": "audioo"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "audioMedia": {
+      "allowedTypes": [
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "content": {
+      "type": "text"
+    },
+    "comments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comment.comment",
+      "mappedBy": "audioo"
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "audioo"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "audioos"
+    },
+    "categoryaudio": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::categoryaudio.categoryaudio",
+      "inversedBy": "audioos"
+    }
+  }
+}
